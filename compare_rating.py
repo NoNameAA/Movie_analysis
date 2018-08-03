@@ -18,7 +18,7 @@ def get_rating(rating_df):
 	rating_df['critic_average'] = rating_df['critic_average'].round(1)
 	#print(audience_rating)
 	#print(critic_rating)
-	gitaudience_rating = rating_df['audience_average']
+	audience_rating = rating_df['audience_average']
 	critic_rating = rating_df['critic_average']
 	# df = rating_df[sample(nrow(rating_df), 200), ]
 	# audience_rating = df['audience_average']
@@ -103,17 +103,34 @@ def u_test(audience_rating, critic_rating):
 
 
 def regression(audience_rating, critic_rating):
+	# reg = stats.linregress(audience_rating, critic_rating)
+	# plt.xlabel('Audience rating')
+	# plt.ylabel('critic_rating')
+	# plt.scatter(audience_rating, critic_rating)
+	# plt.show()
+	# print("slope pf linear regression: ", reg.slope)
+	# print("intercept of linear regression: ", reg.intercept)
+	# print("pvalue of linear regression: ", reg.pvalue)
+
 	reg = stats.linregress(audience_rating, critic_rating)
+	predict = audience_rating*reg.slope + reg.intercept
+	print(reg)
+	#print("the pvalue of fit is: ", fit.pvalue)
 	plt.figure(2)
-	plt.xlabel('Audience rating')
+	plt.title('audience_rating vs critic_rating')
+	plt.xlabel('audience_rating')
 	plt.ylabel('critic_rating')
-	plt.scatter(audience_rating, critic_rating)
+	plt.plot(audience_rating,critic_rating,'b.', alpha=0.5)
+	plt.plot(audience_rating,predict,'r-', linewidth=3)
 	plt.show()
-	print("slope pf linear regression: ", reg.slope)
-	print("intercept of linear regression: ", reg.intercept)
-	print("pvalue of lineat regression: ", reg.pvalue)
+
 	residuals = critic_rating - (reg.slope*audience_rating + reg.intercept)
-	print("regression line is the line that minimizes: ", (residuals**2).sum())
+	
+	plt.title('Histogram of the residuals ')
+	plt.xlabel('Residuals')
+	plt.ylabel('Frequency')
+	plt.hist(residuals, density=True, bins=30)
+	plt.show()
 	print("correlation coefficient r: ", reg.rvalue)
 	print("r squared: ", reg.rvalue**2 )
 
