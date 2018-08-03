@@ -21,11 +21,13 @@ from sklearn.ensemble import RandomForestClassifier
 def predict_by_all(df, X_list):
 	X = df[X_list]
 	y = df['profit']
+	
 
 	# Normalize each features
 	scaler = StandardScaler()
 	scaler.fit(X)
 	X = scaler.transform(X)
+
 
 	# Data split
 	x_train, x_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.5)
@@ -50,7 +52,7 @@ def predict_by_all(df, X_list):
 
 def feature_selection(df, X_list):
 	corr = df[X_list].corr()
-	sb.heatmap(corr, cmap="Blues", annot=True)
+	# sb.heatmap(corr, cmap="Blues", annot=True)
 	# plt.show()
 
 	X = df[X_list].copy()
@@ -58,6 +60,7 @@ def feature_selection(df, X_list):
 	scaler.fit(X)
 	X = scaler.transform(X)
 	y = df['profit']
+
 
 	forest = RandomForestClassifier()
 	forest.fit(X, y)
@@ -100,9 +103,13 @@ def predict_by_2x(df, normalized):
 	X = df.iloc[:, 0:2]
 	y = df.iloc[:, -1]
 	if normalized == False:
+		# print(X.dtypes)
 		scaler = StandardScaler()
 		scaler.fit(X)
 		X = scaler.transform(X)
+		# print(X.shape[0])
+		# plt.scatter(range(X.shape[0]), X[:,1])
+		# plt.show()
 
 	# Data split
 	x_train, x_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.5)
@@ -168,6 +175,8 @@ def predict_profit(wiki_movie_df, rating_df):
 
 	fs_df, selected_list = feature_selection(wiki_movie, X_list)
 
+	# print(fs_df)
+
 	pca_df = feature_reduction(wiki_movie, X_list)
 
 	SVC_score_pca, LR_score_pca, NB_score_pca = predict_by_2x(pca_df, True)
@@ -192,8 +201,8 @@ def predict_profit(wiki_movie_df, rating_df):
 					"The accuracy of model with Top-2 important features by Naive Bayes Classifier",
 	]
 
-	for k, v in sorted(zip(map(lambda x: round(x, 4), score_list), method_list), reverse=True):
-		print(v + ': ' + str(k)) 	
+	# for k, v in sorted(zip(map(lambda x: round(x, 4), score_list), method_list), reverse=True):
+	# 	print(v + ': ' + str(k)) 	
 
 
 if __name__ == "__main__":

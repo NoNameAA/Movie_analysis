@@ -1,3 +1,5 @@
+import warnings
+warnings.filterwarnings("ignore")
 import numpy as np
 import pandas as pd
 import sys
@@ -12,6 +14,7 @@ from sklearn import model_selection
 from sklearn.naive_bayes import GaussianNB
 import string
 import re
+
 
 def read_data():
     # wiki_movie_df = pd.read_json("wikidata-movies.json.gz", lines=True, encoding='UTF8')
@@ -31,9 +34,9 @@ def clean_data(genres_df):
     # genres_df['omdb_plot'] = genres_df['omdb_plot'].apply( \
     #                     lambda x: re.sub(pattern, '', x))
 
-    # genres_df.columns = ['genres', 'description']
-    # genres_df = pd.concat([pd.Series(row['description'], row['genres'])
-    #                 for _, row in genres_df.iterrows()]).reset_index()
+    genres_df.columns = ['genres', 'description']
+    genres_df = pd.concat([pd.Series(row['description'], row['genres'])
+                    for _, row in genres_df.iterrows()]).reset_index()
 
 
     genres_df.columns = ['genres', 'desc']
