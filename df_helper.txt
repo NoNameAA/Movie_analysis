@@ -1,0 +1,94 @@
+<rotten-tomatoes.json.gz>   # contains all of the ratings from Rotten Tomatoes (using the Rotten Tomatoes ID from the WikiData file)
+
+rating_df:
+audience_average(float64)   # (out of 5)
+audience_percent(float64)   # who liked it (out of 100)
+audience_ratings(float64)   # the count of audience reviews
+critic_average(float64)   # (out of 10)
+critic_percent(float64)   # who gave a positive review (out of 100)
+imdb_id(object)
+rotten_tomatoes_id(object)
+
+e.g.
+{
+"audience_average":3.9,
+"audience_percent":86.0,
+"audience_ratings":33125227.0,
+"critic_average":7.1,
+"critic_percent":79.0,
+"imdb_id":"tt0325980",
+"rotten_tomatoes_id":"m\/pirates_of_the_caribbean_the_curse_of_the_black_pearl"
+}
+
+
+//-------------------------------------------------
+
+<omdb-data.json.gz>   # contains data from the OMDB API
+
+genres_df:
+imdb_id(object)
+omdb_awards(object)   # text describing awards won by the movie
+omdb_genres(object)   # may or may not be similar to the WikiData genres
+omdb_plot(object)   # English text describing the plot
+
+e.g.
+{
+"imdb_id":"tt0060814",
+"omdb_genres":["Drama","History","War"],
+"omdb_plot":"In this sprawling, star-laden film, we see the struggles of various French resistance factions to regain control of Paris near the end of World War II. The Nazi general in charge of Paris, Dietrich von Cholitz (Fr\u00f6be), is under orders from Hitler himself to burn the city if he cannot control it or if the Allies get too close. Much of the drama centers around the moral deliberations of the general, the Swedish ambassador (Welles), and the eager but desperate leaders of the resistance.",
+"omdb_awards":"Nominated for 2 Oscars. Another 2 nominations."
+}
+
+
+//-------------------------------------------------
+
+<genres.json.gz>   # a mapping from WikiData entity identifiers to English genre names.
+
+wiki_genres_df:
+genre_label(object)
+wikidata_id(object)
+
+e.g.
+{
+"wikidata_id":"Q43334491",
+"genre_label":"novella"
+}
+
+
+//-------------------------------------------------
+
+<wikidata-movies.json.gz>   # contains information which are relevant extracted from WikiData
+
+wiki_movie_df:
+based_on               object   # the work(s) used as the basis for subject item 改编自
+cast_member            object   # actor performing live for a camera or audience  参演人员
+country_of_origin      object   # a creative work or subject item's country of origin 作品出产地
+director               object
+enwiki_title           object   # probably missing
+filming_location       object   # actual place where this scene/film was shot. 拍摄地点
+genre                  object   # creative work's genre or an artist's field of work  类型
+imdb_id                object   # identifier for the Internet Movie Database
+label                  object   # similar as title
+made_profit           float64
+main_subject           object   # primary topic of a work 作品主题
+metacritic_id          object   # identifier for Metacritic
+original_language      object
+publication_date       object
+rotten_tomatoes_id     object   # identifier on Rotten Tomatoes 烂番茄编号
+series                 object   # subject is part of a series, the sum of which constitutes the object 系列
+wikidata_id            object
+
+e.g.
+{
+"wikidata_id":"Q43079072",
+"label":"If I Were You",
+"imdb_id":"tt1587309",
+"rotten_tomatoes_id":"m/if_i_were_you_2012",
+"enwiki_title":"If I Were You (2012 Canadian film)",
+"genre":["Q859369"],
+"director":["Q43079418"],
+"cast_member":["Q228931","Q235384"],
+"publication_date":"2012-01-01",
+"country_of_origin":"Q145",
+"original_language":"Q1860"
+}
