@@ -4,21 +4,27 @@ import numpy as np
 import sys
 from scipy import stats
 import matplotlib.pyplot as plt
+from random import randint
 
 
 def get_rating(rating_df):
 	rating_df = rating_df.dropna(subset = ['audience_average', 'critic_average'])
 	#print(rating_df.count())
-	audience_rating = rating_df['audience_average']
-	critic_rating = rating_df['critic_average']
+	rating_df = rating_df[rating_df['audience_ratings'] >= 1000]
+	#print(rating_df.count())
 	# Because the audience rating is out of 5 and critic rating is out of 10, the stardant of them are different
-	critic_rating = critic_rating /2
+	rating_df['critic_average'] = rating_df['critic_average'] /2
 	#print(critic_rating)
-	audience_rating = audience_rating.round(1)
-	critic_rating = critic_rating.round(1)
+	rating_df['audience_average'] = rating_df['audience_average'].round(1)
+	rating_df['critic_average'] = rating_df['critic_average'].round(1)
 	#print(audience_rating)
 	#print(critic_rating)
-
+	audience_rating = rating_df['audience_average']
+	critic_rating = rating_df['critic_average']
+	# df = rating_df[sample(nrow(rating_df), 200), ]
+	# audience_rating = df['audience_average']
+	# critic_rating = df['critic_average']
+	# print(df)
 	return audience_rating, critic_rating
 
 
