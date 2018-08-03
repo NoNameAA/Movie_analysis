@@ -4,7 +4,6 @@ import numpy as np
 import sys
 from scipy import stats
 import matplotlib.pyplot as plt
-from random import randint
 
 
 def get_rating(rating_df):
@@ -19,7 +18,7 @@ def get_rating(rating_df):
 	rating_df['critic_average'] = rating_df['critic_average'].round(1)
 	#print(audience_rating)
 	#print(critic_rating)
-	audience_rating = rating_df['audience_average']
+	gitaudience_rating = rating_df['audience_average']
 	critic_rating = rating_df['critic_average']
 	# df = rating_df[sample(nrow(rating_df), 200), ]
 	# audience_rating = df['audience_average']
