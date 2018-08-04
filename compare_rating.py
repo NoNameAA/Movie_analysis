@@ -24,6 +24,12 @@ def get_rating(rating_df):
 	# audience_rating = df['audience_average']
 	# critic_rating = df['critic_average']
 	# print(df)
+	print("----- Data -----")
+	print(rating_df.count())
+	print(" \n ")
+	print(audience_rating.head())
+	print(" \n ")
+	print(critic_rating.head())
 	return audience_rating, critic_rating
 
 
@@ -125,7 +131,7 @@ def regression(audience_rating, critic_rating):
 	plt.show()
 
 	residuals = critic_rating - (reg.slope*audience_rating + reg.intercept)
-	
+
 	plt.title('Histogram of the residuals ')
 	plt.xlabel('Residuals')
 	plt.ylabel('Frequency')
@@ -143,10 +149,13 @@ def main():
 	#plt.savefig('rating.png')
 
 	# do T-test for testing if audience rating and critic norm have the same means
+	print("\n")
 	print("----- T-test -----")
 	t_test(audience_rating, critic_rating)
+	print("\n")
 	print("----- U-test -----")
 	u_test(audience_rating, critic_rating)
+	print("\n")
 	print("----- Regression -----")
 	regression(audience_rating, critic_rating)
 
