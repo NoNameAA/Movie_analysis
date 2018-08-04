@@ -23,9 +23,10 @@ Document:
              import sys
              import numpy as np   
              from scipy import stats
-             import matplotlib.pyplot as plt   
+             import matplotlib.pyplot as plt 
+             import seaborn  
     Expected: Do statistic test (T-test, U-Test and ordinary least squares) for audience_average and critic_average. Discuss if audience reviews and critic reviews have the same means or not.
-    OutPut: results of statistic test, and three plots
+    OutPut: results of statistic test, two histograms and a scatter plots
 
 
 3. compare_audi_crit.py
@@ -37,9 +38,10 @@ Document:
              import numpy as np   
              from scipy import stats
              import matplotlib.pyplot as plt  
+             import seaborn
              from statsmodels.stats.multicomp import pairwise_tukeyhsd
     Expected: Do statistic test (anova and post hoc Tukey test) for multiple values. Discuss if these values audience reviews, critic reviews, audience_percent and critic_percent can be concluded to have different means.
-    Output: results of statistic test, a table, and a plot
+    Output: results of statistic test, a table, one histogram and a spiffy plot
 
 
 4. movie_predict.py (There is a jupyter notebook for demo this code due to too many figures and tables)
