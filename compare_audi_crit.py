@@ -12,7 +12,7 @@ def get_data(rating_df):
 	rating_df = rating_df.dropna()
 	#rating_df = rating_df[rating_df['audience_ratings'] >= 8000]
 	rating_df = rating_df.sort_values(by=['audience_ratings'], ascending = False)
-	rating_df = rating_df[:1000]
+	rating_df = rating_df[:300]
 	#print(rating_df['audience_ratings'])
 	#print(rating_df)
 	audience_average = rating_df['audience_average']
