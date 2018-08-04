@@ -4,6 +4,7 @@ This project is for analyzing movies and there are five complete files.
 
 Document:
 1. process_data.py
+    
     Running Command: python3 process_data.py
     input: wikidata-movies.json.gz
            rotten-tomatoes.json.gz
@@ -16,6 +17,7 @@ Document:
 
 
 2. compare_rating.py
+    
     Running Command: python3 compare_rating.py
     input: process_data.py
            rotten-tomatoes.json.gz
@@ -30,6 +32,7 @@ Document:
 
 
 3. compare_audi_crit.py
+    
     Running Command: python3 compare_audi_crit.py
     input: process_data.py
            rotten-tomatoes.json.gz
