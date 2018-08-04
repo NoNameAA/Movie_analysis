@@ -67,3 +67,4 @@ Document:
 
 Order of execution:
   TA and prof do not need to execute the file "process_data.py", because this is a help file which has no output. The purpose of the file is getting data from four data sources and doing help for other files. The other four files "compare_rating.py", "compare_audi_crit.py", "movie_predict.py" and "NLP_predict.py" are individual files, so there is no necessary execution order between them.
+
