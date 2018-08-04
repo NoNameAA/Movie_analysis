@@ -51,10 +51,10 @@ def get_data(rating_df):
 
 def check_test(audience_average, critic_average, audience_percent, critic_percent):
 	# Test thry are normalization
-	audience_average = audience_average.apply(do_times)
-	critic_average = critic_average.apply(do_times)
-	audience_percent = audience_percent.apply(do_times)
-	critic_percent = critic_percent.apply(do_times)
+	# audience_average = audience_average.apply(do_times)
+	# critic_average = critic_average.apply(do_times)
+	# audience_percent = audience_percent.apply(do_times)
+	# critic_percent = critic_percent.apply(do_times)
 
 	test_audi_ave_norm = stats.normaltest(audience_average).pvalue
 	test_crit_ave_norm = stats.normaltest(critic_average).pvalue
@@ -73,17 +73,18 @@ def check_test(audience_average, critic_average, audience_percent, critic_percen
 	plt.show()
 
 
-def do_anova(audience_average, critic_average, audience_percent, critic_percent):
-	anova = stats.f_oneway(audience_average, critic_average, audience_percent, critic_percent)
+def do_anova(audience_average, critic_average, audience_percent):
+	anova = stats.f_oneway(audience_average, critic_average, audience_percent)
+	print("\n")
 	print("----- Anova -----")
 	print("pvalue of anova: ", anova.pvalue)
 	if (anova.pvalue < 0.05):
 		print("Because of pvalue < 0.05, there is a difference between the means of the groups.")
 	return anova.pvalue
 
-def do_post_hoc(audience_average, critic_average, audience_percent, critic_percent):
+def do_post_hoc(audience_average, critic_average, audience_percent):
 	x_data = pd.DataFrame({'audience_average':audience_average, 'critic_average':critic_average,
-	'audience_percent':audience_percent, 'critic_percent':critic_percent})
+	'audience_percent':audience_percent})
 	x_melt = pd.melt(x_data)
 	posthoc = pairwise_tukeyhsd(
     x_melt['value'], x_melt['variable'], alpha=0.05)
@@ -101,11 +102,11 @@ def main():
 	#audience_rating, critic_rating = get_rating(rating_df)
 	audience_average, critic_average, audience_percent, critic_percent = get_data(rating_df)
 	check_test(audience_average, critic_average, audience_percent, critic_percent)
-	pvalue = do_anova(audience_average, critic_average, audience_percent, critic_percent)
+	pvalue = do_anova(audience_average, critic_average, audience_percent)
 	if (pvalue < 0.05):
 		print(" \n ")
 		print("Do post hoc Tukey test")
-	do_post_hoc(audience_average, critic_average, audience_percent, critic_percent)
+	do_post_hoc(audience_average, critic_average, audience_percent)
 
 
 
