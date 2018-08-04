@@ -10,6 +10,10 @@ from statsmodels.stats.multicomp import pairwise_tukeyhsd
 
 def get_data(rating_df):
 	rating_df = rating_df.dropna()
+	#rating_df = rating_df[rating_df['audience_ratings'] >= 8000]
+	rating_df = rating_df.sort_values(by=['audience_ratings'], ascending = False)
+	rating_df = rating_df[:1000]
+	#print(rating_df['audience_ratings'])
 	#print(rating_df)
 	audience_average = rating_df['audience_average']
 	critic_average = rating_df['critic_average']
@@ -22,13 +26,21 @@ def get_data(rating_df):
 	audience_average = audience_average*20
 	# print(audience_average)
 	# print(critic_average)
-
+	print("----- Data -----")
+	# print(rating_df.count())
+	# print("\n")
+	print(audience_average.head())
+	print(critic_average.head())
+	print(audience_percent.head())
+	print(critic_percent.head())
+	print("\n")
 
 	return audience_average, critic_average, audience_percent, critic_percent
 
 
 def do_anova(audience_average, critic_average, audience_percent, critic_percent):
 	anova = stats.f_oneway(audience_average, critic_average, audience_percent, critic_percent)
+	print("----- Anova -----")
 	print("pvalue of anova: ", anova.pvalue)
 	if (anova.pvalue < 0.05):
 		print("Because of pvalue < 0.05, there is a difference between the means of the groups.")
@@ -53,7 +65,7 @@ def main():
 	audience_average, critic_average, audience_percent, critic_percent = get_data(rating_df)
 	pvalue = do_anova(audience_average, critic_average, audience_percent, critic_percent)
 	if (pvalue < 0.05):
-		print(" ")
+		print(" \n ")
 		print("Do post hoc Tukey test")
 	do_post_hoc(audience_average, critic_average, audience_percent, critic_percent)
 
