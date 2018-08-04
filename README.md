@@ -42,7 +42,7 @@ Document:
     Output: results of statistic test, a table, and a plot
 
 
-4. movie_predict.py
+4. movie_predict.py (There is a jupyter notebook for demo this code due to too many figures and tables)
     Running Command: python3 movie_predict.py
     Input: process_data.py
            wikidata-movies.json.gz

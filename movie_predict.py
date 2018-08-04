@@ -52,8 +52,8 @@ def predict_by_all(df, X_list):
 
 def feature_selection(df, X_list):
 	corr = df[X_list].corr()
-	# sb.heatmap(corr, cmap="Blues", annot=True)
-	# plt.show()
+	sb.heatmap(corr, cmap="Blues", annot=True)
+	plt.show()
 
 	X = df[X_list].copy()
 	scaler = StandardScaler()
@@ -65,10 +65,10 @@ def feature_selection(df, X_list):
 	forest = RandomForestClassifier()
 	forest.fit(X, y)
 	importances = forest.feature_importances_
-	# print(importances)
+	print("The importance of features are: (sorted)")
 	result = []
 	for k, v in sorted(zip(map(lambda x: round(x, 4), importances), X_list), reverse=True):
-		# print(v + ': ' + str(k))
+		print(v + ': ' + str(k))
 		result.append((v, k))
 
 	selected_list = []
@@ -102,29 +102,21 @@ def feature_reduction(df, X_list):
 def predict_by_2x(df, normalized):
 	X = df.iloc[:, 0:2]
 	y = df.iloc[:, -1]
-	if normalized == False:
-		# print(X.dtypes)
+	if normalized == False:		
 		scaler = StandardScaler()
 		scaler.fit(X)
 		X = scaler.transform(X)
-		# print(X.shape[0])
-		# plt.scatter(range(X.shape[0]), X[:,1])
-		# plt.show()
+		
 
 	# Data split
 	x_train, x_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.5)
 
-	# if normalized == False:
-	# 	print(df.dtypes)
-	# 	sb.lmplot(x='audience_ratings', y='audience_ratings', fit_reg=False, data=df, hue='profit')
-	# 	plt.show()
 
 	#SVM Classifier
 	svc_model = SVC(kernel='linear', C=21)
 	svc_model.fit(x_train, y_train)
 	SVC_score = svc_model.score(x_test, y_test)
-	# predict = svc_model.predict(x_test)
-	# print(predict)
+
 	#Logistic Regression
 	LR_model = LogisticRegression()
 	LR_model.fit(x_train, y_train)
@@ -134,18 +126,25 @@ def predict_by_2x(df, normalized):
 	NB_model.fit(x_train, y_train)
 	NB_score = NB_model.score(x_test, y_test)
 
-	# if normalized == False:
-	# 	return SVC_score, LR_score, NB_score, svc_model, LR_model
 
 	return SVC_score, LR_score, NB_score
 
+def show_distribution(df):	
+	X = df.iloc[:, 0:2]	
+	scaler = StandardScaler()
+	scaler.fit(X)
+	X = scaler.transform(X)
+	temp_df = pd.DataFrame(data=X, columns=['x', 'y'])
+	temp_df['profit'] = pd.Series(df['profit'], index=temp_df.index)
+	temp_df['x'] = temp_df[temp_df['x'] < 3] # remove some outliers
+	sb.lmplot(x='x', y='y', fit_reg=False, data=temp_df, hue='profit', \
+			markers=["x", "o"], palette={True:'b', False:'r'})
+	plt.show()
 
 
 def predict_profit(wiki_movie_df, rating_df):
 	wiki_movie_df = wiki_movie_df.set_index('imdb_id').join(rating_df.set_index('imdb_id'), how='left', lsuffix='wiki_movie_df')
 
-	# print(wiki_movie_df.dtypes)
-	# print(wiki_movie_df.head())
 
 	wiki_movie_df = wiki_movie_df.reset_index()
 
@@ -201,8 +200,11 @@ def predict_profit(wiki_movie_df, rating_df):
 					"The accuracy of model with Top-2 important features by Naive Bayes Classifier",
 	]
 
-	# for k, v in sorted(zip(map(lambda x: round(x, 4), score_list), method_list), reverse=True):
-	# 	print(v + ': ' + str(k)) 	
+	for k, v in sorted(zip(map(lambda x: round(x, 4), score_list), method_list), reverse=True):
+		print(v + ': ' + str(k)) 	
+
+	sb.set()
+	show_distribution(fs_df)
 
 
 if __name__ == "__main__":
