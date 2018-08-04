@@ -5,6 +5,7 @@ import sys
 from scipy import stats
 import matplotlib.pyplot as plt
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
+import seaborn
 
 
 
@@ -54,6 +55,7 @@ def do_post_hoc(audience_average, critic_average, audience_percent, critic_perce
     x_melt['value'], x_melt['variable'], alpha=0.05)
 	print(posthoc)
 	fig = posthoc.plot_simultaneous()
+	plt.xlabel('rating')
 	plt.show()
 
 
@@ -61,6 +63,7 @@ def do_post_hoc(audience_average, critic_average, audience_percent, critic_perce
 
 def main():
 	wiki_movie_df, rating_df, genres_df, wiki_genres_df = process_data.read_data()
+	seaborn.set()
 	#audience_rating, critic_rating = get_rating(rating_df)
 	audience_average, critic_average, audience_percent, critic_percent = get_data(rating_df)
 	pvalue = do_anova(audience_average, critic_average, audience_percent, critic_percent)
