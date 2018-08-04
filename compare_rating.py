@@ -4,6 +4,7 @@ import numpy as np
 import sys
 from scipy import stats
 import matplotlib.pyplot as plt
+import seaborn
 
 
 def get_rating(rating_df):
@@ -146,7 +147,7 @@ def regression(audience_rating, critic_rating):
 def main():
 	wiki_movie_df, rating_df, genres_df, wiki_genres_df = process_data.read_data()
 	audience_rating, critic_rating = get_rating(rating_df)
-
+	seaborn.set()
 	#plt.savefig('rating.png')
 
 	# do T-test for testing if audience rating and critic norm have the same means
