@@ -7,6 +7,17 @@ import matplotlib.pyplot as plt
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import seaborn
 
+def do_log(num):
+	return (np.log(num))
+
+def do_exp(num):
+	return (np.exp(num))
+
+def do_sqrt(num):
+	return (np.sqrt(num))
+
+def do_times(num):
+	return num**2
 
 
 def get_data(rating_df):
@@ -38,6 +49,29 @@ def get_data(rating_df):
 
 	return audience_average, critic_average, audience_percent, critic_percent
 
+def check_test(audience_average, critic_average, audience_percent, critic_percent):
+	# Test thry are normalization
+	audience_average = audience_average.apply(do_times)
+	critic_average = critic_average.apply(do_times)
+	audience_percent = audience_percent.apply(do_times)
+	critic_percent = critic_percent.apply(do_times)
+
+	test_audi_ave_norm = stats.normaltest(audience_average).pvalue
+	test_crit_ave_norm = stats.normaltest(critic_average).pvalue
+	test_audi_per_norm = stats.normaltest(audience_percent).pvalue
+	test_crit_per_norm = stats.normaltest(critic_percent).pvalue
+	print("pvalue of audience average normality: ",test_audi_ave_norm)
+	print("pvalue of critic average normality: ",test_crit_ave_norm)
+	print("pvalue of audience percent normality: ",test_audi_per_norm)
+	print("pvalue of critic percent normality: ",test_crit_per_norm)
+
+	plt.hist([audience_average, critic_average, audience_percent, critic_percent], color = ['red', 'blue', 'orange', 'green'])
+	plt.legend(['audience_average', 'critic_average', 'audience_percent', 'critic_percent'])
+	plt.xlabel("rating")
+	plt.ylabel("count of rating")
+	plt.title('Distribution of four variables')
+	plt.show()
+
 
 def do_anova(audience_average, critic_average, audience_percent, critic_percent):
 	anova = stats.f_oneway(audience_average, critic_average, audience_percent, critic_percent)
@@ -66,6 +100,7 @@ def main():
 	seaborn.set()
 	#audience_rating, critic_rating = get_rating(rating_df)
 	audience_average, critic_average, audience_percent, critic_percent = get_data(rating_df)
+	check_test(audience_average, critic_average, audience_percent, critic_percent)
 	pvalue = do_anova(audience_average, critic_average, audience_percent, critic_percent)
 	if (pvalue < 0.05):
 		print(" \n ")
