@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 def get_rating(rating_df):
 	rating_df = rating_df.dropna(subset = ['audience_average', 'critic_average'])
 	#print(rating_df.count())
-	rating_df = rating_df[rating_df['audience_ratings'] >= 1000]
+	rating_df = rating_df.sort_values(by=['audience_ratings'], ascending = False)
+	rating_df = rating_df[:300]
 	#print(rating_df.count())
 	# Because the audience rating is out of 5 and critic rating is out of 10, the stardant of them are different
 	rating_df['critic_average'] = rating_df['critic_average'] /2
